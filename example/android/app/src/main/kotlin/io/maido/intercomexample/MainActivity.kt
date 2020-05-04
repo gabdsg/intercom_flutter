@@ -1,4 +1,4 @@
-package io.maido.intercomexample
+package io.gabdsg.intercomexample
 
 import android.os.Bundle
 

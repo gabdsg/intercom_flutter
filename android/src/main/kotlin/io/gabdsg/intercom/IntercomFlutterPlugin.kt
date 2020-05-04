@@ -1,4 +1,4 @@
-package io.maido.intercom
+package io.gabdsg.intercom
 
 import android.app.Application
 import io.flutter.plugin.common.EventChannel
@@ -20,9 +20,9 @@ class IntercomFlutterPlugin(private val application: Application) : MethodCallHa
   companion object {
     @JvmStatic
     fun registerWith(registrar: Registrar) {
-      val channel = MethodChannel(registrar.messenger(), "maido.io/intercom")
+      val channel = MethodChannel(registrar.messenger(), "gabdsg.io/intercom")
       channel.setMethodCallHandler(IntercomFlutterPlugin(registrar.context() as Application))
-      val unreadEventChannel = EventChannel(registrar.messenger(), "maido.io/intercom/unread")
+      val unreadEventChannel = EventChannel(registrar.messenger(), "gabdsg.io/intercom/unread")
       unreadEventChannel.setStreamHandler(IntercomFlutterPlugin(registrar.context() as Application))
     }
   }

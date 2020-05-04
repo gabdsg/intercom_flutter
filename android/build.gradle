@@ -1,4 +1,4 @@
-group 'io.maido.intercom'
+group 'io.gabdsg.intercom'
 version '1.0-SNAPSHOT'
 
 buildscript {

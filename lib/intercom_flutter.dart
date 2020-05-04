@@ -8,9 +8,10 @@ enum IntercomVisibility { gone, visible }
 
 class Intercom {
   static const MethodChannel _channel =
-      const MethodChannel('maido.io/intercom');
+      const MethodChannel('gabdsg.io/intercom');
+
   static const EventChannel _unreadChannel =
-      const EventChannel('maido.io/intercom/unread');
+      const EventChannel('gabdsg.io/intercom/unread');
 
   static Future<dynamic> initialize(
     String appId, {

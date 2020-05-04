@@ -3,21 +3,25 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'intercom_flutter'
-  s.version          = '2.1.1'
+  s.version          = '3.0.0'
   s.summary          = 'Intercom integration for Flutter'
   s.description      = <<-DESC
-A new flutter plugin project.
+  Flutter plugin for Intercom integration. Provides in-app messaging
+  and help-center Intercom services
                        DESC
-  s.homepage         = 'https://github.com/ChangeFinance/intercom_flutter'
+  s.homepage         = 'https://github.com/gabdsg'
   s.license          = { :file => '../LICENSE' }
-  s.author           = { 'xChange OÜ' => 'maido@getchange.com' }
+  s.author           = { 'gabdsg' => 'gabriel@uruworks.com' }
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.public_header_files = 'Classes/**/*.h'
   s.dependency 'Flutter'
   s.dependency 'Intercom'
   s.static_framework = true
-  s.dependency 'Intercom', '~> 6.0.1'
+  s.dependency 'Intercom', '~> 6.1.0'
   s.ios.deployment_target = '10.0'
+
+  s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'VALID_ARCHS[sdk=iphonesimulator*]' => 'x86_64' }
+  s.swift_version = '5.0'
 end
 

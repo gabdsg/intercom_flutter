@@ -1,3 +1,6 @@
+## 3.0.0
+* Migrate to swift
+
 ## 2.2.0
 * Added unread messages count listener
 

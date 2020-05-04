@@ -65,7 +65,7 @@ This plugin works in combination with the [`firebase_messaging`](https://pub.dev
 
 ```
     <service
-        android:name="io.maido.intercom.PushInterceptService"
+        android:name="io.gabdsg.intercom.PushInterceptService"
         android:enabled="true"
         android:exported="true">
         <intent-filter>
@@ -90,7 +90,7 @@ Now, if either FireBase direct (e.g. by your own backend server) or Intercom sen
 
 If you are [handling background messages in `firebase_messaging`](https://github.com/FirebaseExtended/flutterfire/tree/master/packages/firebase_messaging#optionally-handle-background-messages) you need to do some extra work for everything to work together:
 
-1. Remove the above mentioned `<service android:name="io.maido.intercom.PushInterceptService" ...` from your `AndroidManifest.xml`.
+1. Remove the above mentioned `<service android:name="io.gabdsg.intercom.PushInterceptService" ...` from your `AndroidManifest.xml`.
 2. In your background messages handler, pass the relevant messages to Intercom:
 
 ```dart

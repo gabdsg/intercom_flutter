@@ -1,4 +1,4 @@
-package io.maido.intercom;
+package io.gabdsg.intercom;
 import com.google.firebase.messaging.*;
 import io.intercom.android.sdk.push.IntercomPushClient;
 import android.util.Log;

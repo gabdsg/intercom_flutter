@@ -9,7 +9,7 @@ void main() {
 
   group('Intercom', () {
     setUp(() {
-      setUpTestMethodChannel('maido.io/intercom');
+      setUpTestMethodChannel('gabdsg.io/intercom');
     });
 
     test('initialize', () {
@@ -182,7 +182,7 @@ void main() {
   });
 
   group('UnreadMessageCount', () {
-    const String channelName = 'maido.io/intercom/unread';
+    const String channelName = 'gabdsg.io/intercom/unread';
     const MethodChannel channel = MethodChannel(channelName);
     final int value = 9;
 
