@@ -122,8 +122,11 @@ public class SwiftIntercomFlutterPlugin: NSObject, FlutterPlugin {
                 Intercom.presentMessageComposer(message)
             }
         case "sendTokenToIntercom":
-            //TODO: sendTokenToIntercom
-            result("No op")
+            if let token = args["token"] as? String{
+                let tokenData = data(fromHexString: token)
+                Intercom.deviceToken = tokenData
+                result("Token sent to Intercom")
+            }
         default:
             result(FlutterMethodNotImplemented)
         }
