@@ -131,4 +131,19 @@ public class SwiftIntercomFlutterPlugin: NSObject, FlutterPlugin {
             result(FlutterMethodNotImplemented)
         }
     }
+
+    private func data(fromHexString string: String?) -> Data? {
+        var stringData = Data()
+        var whole_byte: UInt8
+        let byte_chars = ["\0", "\0", "\0"]
+        var i: Int
+        for i in 0..<(string?.count ?? 0) / 2 {
+            byte_chars?[0] = string?[string?.index(string?.startIndex, offsetBy: UInt(i * 2))]
+            byte_chars?[1] = string?[string?.index(string?.startIndex, offsetBy: UInt(i * 2 + 1))]
+            whole_byte = strtol(byte_chars, nil, 16)
+            stringData.append(UnsafeRawPointer(&whole_byte), length: 1)
+        }
+        return stringData
+    }
+
 }
