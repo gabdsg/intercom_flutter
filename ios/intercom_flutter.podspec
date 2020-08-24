@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
   s.dependency 'Flutter'
   s.dependency 'Intercom'
   s.static_framework = true
-  s.dependency 'Intercom', '~> 6.1.0'
+  s.dependency 'Intercom', '~> 7.1.2'
   s.ios.deployment_target = '10.0'
 
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'VALID_ARCHS[sdk=iphonesimulator*]' => 'x86_64' }
