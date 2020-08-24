@@ -1,3 +1,6 @@
+## 3.1.0
+* Migrate to intercom v7
+
 ## 3.0.0
 * Migrate to swift
 
