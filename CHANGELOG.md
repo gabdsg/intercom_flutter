@@ -1,3 +1,6 @@
+## 3.1.1
+* Kotlin fix...
+
 ## 3.1.0
 * Migrate to intercom v7
 

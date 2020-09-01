@@ -27,7 +27,7 @@ class IntercomFlutterPlugin : FlutterPlugin, MethodCallHandler, EventChannel.Str
       application = registrar.context() as Application
       channel.setMethodCallHandler(IntercomFlutterPlugin()
       val unreadEventChannel = EventChannel(registrar.messenger(), "gabdsg.io/intercom/unread")
-      unreadEventChannel.setStreamHandler(IntercomFlutterPlugin()
+      unreadEventChannel.setStreamHandler(IntercomFlutterPlugin())
     }
   }
 
