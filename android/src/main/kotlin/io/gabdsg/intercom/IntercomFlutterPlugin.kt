@@ -1,7 +1,6 @@
 package io.gabdsg.intercom
 
 import android.app.Application
-import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
@@ -14,39 +13,23 @@ import io.intercom.android.sdk.UnreadConversationCountListener
 import io.intercom.android.sdk.UserAttributes
 import io.intercom.android.sdk.identity.Registration
 import io.intercom.android.sdk.push.IntercomPushClient
-import io.flutter.embedding.engine.plugins.activity.ActivityAware
-import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
-import androidx.annotation.NonNull
 
-class IntercomFlutterPlugin : FlutterPlugin, MethodCallHandler, EventChannel.StreamHandler, ActivityAware {
+class IntercomFlutterPlugin(private val application: Application) : MethodCallHandler, EventChannel.StreamHandler {
+
+
   companion object {
-    @JvmStatic lateinit var application: Application
-
     @JvmStatic
     fun registerWith(registrar: Registrar) {
       val channel = MethodChannel(registrar.messenger(), "gabdsg.io/intercom")
-      application = registrar.context() as Application
-      channel.setMethodCallHandler(IntercomFlutterPlugin())
+      channel.setMethodCallHandler(IntercomFlutterPlugin(registrar.context() as Application))
       val unreadEventChannel = EventChannel(registrar.messenger(), "gabdsg.io/intercom/unread")
-      unreadEventChannel.setStreamHandler(IntercomFlutterPlugin())
+      unreadEventChannel.setStreamHandler(IntercomFlutterPlugin(registrar.context() as Application))
     }
   }
 
   private val intercomPushClient = IntercomPushClient()
   private lateinit var unreadConversationCountListener: UnreadConversationCountListener
 
-  override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
-    val channel = MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), "gabdsg.io/intercom")
-    channel.setMethodCallHandler(IntercomFlutterPlugin())
-    val unreadEventChannel = EventChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), "gabdsg.io/intercom/unread")
-    unreadEventChannel.setStreamHandler(IntercomFlutterPlugin())
-  }
-
-  // https://stackoverflow.com/a/62206235
-  override fun onAttachedToActivity(binding: ActivityPluginBinding) {
-    application = binding.activity.getApplication();
-  }
-  
   override fun onMethodCall(call: MethodCall, result: Result) {
     when {
       call.method == "initialize" -> {
@@ -202,18 +185,5 @@ class IntercomFlutterPlugin : FlutterPlugin, MethodCallHandler, EventChannel.Str
 
   override fun onCancel(arguments: Any?) {
     Intercom.client().removeUnreadConversationCountListener(unreadConversationCountListener)
-  }
-  
-  override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
-    Intercom.client().removeUnreadConversationCountListener(unreadConversationCountListener)
-  }
-  
-  override fun onDetachedFromActivity() {
-  }
-
-  override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
-  }
-
-  override fun onDetachedFromActivityForConfigChanges() {
   }
 }
