@@ -184,6 +184,8 @@ class IntercomFlutterPlugin(private val application: Application) : MethodCallHa
   }
 
   override fun onCancel(arguments: Any?) {
-    Intercom.client().removeUnreadConversationCountListener(unreadConversationCountListener)
+    if (unreadConversationCountListener.isInitialized) {
+      Intercom.client().removeUnreadConversationCountListener(unreadConversationCountListener)
+    }
   }
 }

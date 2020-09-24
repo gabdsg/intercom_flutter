@@ -123,9 +123,9 @@ public class SwiftIntercomFlutterPlugin: NSObject, FlutterPlugin {
             }
         case "sendTokenToIntercom":
             if let token = args["token"] as? String{
-                // if let tokenData = data(fromHexString: token){
-                //     Intercom.setDeviceToken(tokenData)
-                // }
+                if let encodedToken = token.data(using: .utf8){
+                    Intercom.setDeviceToken(encodedToken)
+                }
                 result("Token sent to Intercom")
             }
         default:
