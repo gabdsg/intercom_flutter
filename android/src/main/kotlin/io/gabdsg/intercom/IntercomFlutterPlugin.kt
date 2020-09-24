@@ -28,7 +28,7 @@ class IntercomFlutterPlugin(private val application: Application) : MethodCallHa
   }
 
   private val intercomPushClient = IntercomPushClient()
-  private var unreadConversationCountListener: UnreadConversationCountListener
+  private lateinit var unreadConversationCountListener: UnreadConversationCountListener
 
   override fun onMethodCall(call: MethodCall, result: Result) {
     when {
