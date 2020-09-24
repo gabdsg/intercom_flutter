@@ -1,4 +1,4 @@
-## 3.1.7
+## 3.1.8
 * Implement sendTokenToIntercom method on iOS side to support push notifications
 
 ## 3.1.6
