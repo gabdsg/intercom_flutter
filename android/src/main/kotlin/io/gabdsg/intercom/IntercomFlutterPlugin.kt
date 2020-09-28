@@ -185,10 +185,10 @@ class IntercomFlutterPlugin : FlutterPlugin, MethodCallHandler, EventChannel.Str
         result.success("Message composer displayed")
       }
       call.method == "isIntercomPush" -> {
-        result.success(intercomPushClient.isIntercomPush(call.argument<Map<String, String>>("message")))
+        result.success(intercomPushClient.isIntercomPush(call.argument<Map<String, String>>("message")!!))
       }
       call.method == "handlePush" -> {
-        intercomPushClient.handlePush(application, call.argument<Map<String, String>>("message"))
+        intercomPushClient.handlePush(application, call.argument<Map<String, String>>("message")!!)
         result.success(null)
       }
       else -> result.notImplemented()
