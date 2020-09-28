@@ -1,3 +1,6 @@
+## 3.1.11
+* migrate to flutter v2 embedding
+
 ## 3.1.10
 * Implement sendTokenToIntercom method on iOS side to support push notifications
 
