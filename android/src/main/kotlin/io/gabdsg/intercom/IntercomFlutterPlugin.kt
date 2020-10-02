@@ -33,7 +33,7 @@ class IntercomFlutterPlugin : FlutterPlugin, MethodCallHandler, EventChannel.Str
   }
 
   private val intercomPushClient = IntercomPushClient()
-  private lateinit var unreadConversationCountListener: UnreadConversationCountListener
+  private var unreadConversationCountListener: UnreadConversationCountListener? = null
 
   override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
     val channel = MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), "gabdsg.io/intercom")
@@ -197,15 +197,19 @@ class IntercomFlutterPlugin : FlutterPlugin, MethodCallHandler, EventChannel.Str
 
   override fun onListen(arguments: Any?, events: EventChannel.EventSink?) {
     unreadConversationCountListener = UnreadConversationCountListener { count -> events?.success(count) }
-    Intercom.client().addUnreadConversationCountListener(unreadConversationCountListener)
+    Intercom.client().addUnreadConversationCountListener(unreadConversationCountListener!!)
   }
 
   override fun onCancel(arguments: Any?) {
-    Intercom.client().removeUnreadConversationCountListener(unreadConversationCountListener)
+    if (unreadConversationCountListener != null) {
+      Intercom.client().removeUnreadConversationCountListener(unreadConversationCountListener)
+    }
   }
 
   override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
-    Intercom.client().removeUnreadConversationCountListener(unreadConversationCountListener)
+    if (unreadConversationCountListener != null) {
+      Intercom.client().removeUnreadConversationCountListener(unreadConversationCountListener)
+    }
   }
 
   override fun onDetachedFromActivity() {
