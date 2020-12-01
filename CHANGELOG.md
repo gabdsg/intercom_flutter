@@ -1,3 +1,5 @@
+## 3.2.0
+* Update to intercom 8
 ## 3.1.13
 * fix android error
 
