@@ -8,17 +8,16 @@ enum IntercomVisibility { gone, visible }
 
 class Intercom {
   static const MethodChannel _channel =
-      const MethodChannel('gabdsg.io/intercom');
-
+      const MethodChannel('maido.io/intercom');
   static const EventChannel _unreadChannel =
-      const EventChannel('gabdsg.io/intercom/unread');
+      const EventChannel('maido.io/intercom/unread');
 
-  static Future<dynamic> initialize(
+  static Future<void> initialize(
     String appId, {
-    String androidApiKey,
-    String iosApiKey,
-  }) {
-    return _channel.invokeMethod('initialize', {
+    String? androidApiKey,
+    String? iosApiKey,
+  }) async {
+    await _channel.invokeMethod('initialize', {
       'appId': appId,
       'androidApiKey': androidApiKey,
       'iosApiKey': iosApiKey,
@@ -29,11 +28,19 @@ class Intercom {
     return _unreadChannel.receiveBroadcastStream();
   }
 
-  static Future<dynamic> setUserHash(String userHash) {
-    return _channel.invokeMethod('setUserHash', {'userHash': userHash});
+  /// This method allows you to set a fixed bottom padding for in app messages and the launcher.
+  ///
+  /// It is useful if your app has a tab bar or similar UI at the bottom of your window.
+  /// [padding] is the size of the bottom padding in points.
+  static Future<void> setBottomPadding(int padding) async {
+    await _channel.invokeMethod('setBottomPadding', {'bottomPadding': padding});
   }
 
-  static Future<dynamic> registerIdentifiedUser({String userId, String email}) {
+  static Future<void> setUserHash(String userHash) async {
+    await _channel.invokeMethod('setUserHash', {'userHash': userHash});
+  }
+
+  static Future<void> registerIdentifiedUser({String? userId, String? email}) {
     if (userId?.isNotEmpty ?? false) {
       if (email?.isNotEmpty ?? false) {
         throw ArgumentError(
@@ -52,94 +59,98 @@ class Intercom {
     }
   }
 
-  static Future<dynamic> registerUnidentifiedUser() {
-    return _channel.invokeMethod('registerUnidentifiedUser');
+  static Future<void> registerUnidentifiedUser() async {
+    await _channel.invokeMethod('registerUnidentifiedUser');
   }
 
-  static Future<dynamic> updateUser({
-    String email,
-    String name,
-    String phone,
-    String company,
-    String companyId,
-    String userId,
-    Map<String, dynamic> customAttributes,
-  }) {
-    return _channel.invokeMethod('updateUser', <String, dynamic>{
+  static Future<void> updateUser({
+    String? email,
+    String? name,
+    String? phone,
+    String? company,
+    String? companyId,
+    String? userId,
+    int? signedUpAt,
+    Map<String, dynamic>? customAttributes,
+  }) async {
+    await _channel.invokeMethod('updateUser', <String, dynamic>{
       'email': email,
       'name': name,
       'phone': phone,
       'company': company,
       'companyId': companyId,
       'userId': userId,
+      'signedUpAt': signedUpAt,
       'customAttributes': customAttributes,
     });
   }
 
-  static Future<dynamic> logout() {
-    return _channel.invokeMethod('logout');
+  static Future<void> logout() async {
+    await _channel.invokeMethod('logout');
   }
 
-  static Future<dynamic> setLauncherVisibility(IntercomVisibility visibility) {
+  static Future<void> setLauncherVisibility(
+      IntercomVisibility visibility) async {
     String visibilityString =
         visibility == IntercomVisibility.visible ? 'VISIBLE' : 'GONE';
-    return _channel.invokeMethod('setLauncherVisibility', {
+    await _channel.invokeMethod('setLauncherVisibility', {
       'visibility': visibilityString,
     });
   }
 
-  static Future<int> unreadConversationCount() {
-    return _channel.invokeMethod('unreadConversationCount');
+  static Future<int> unreadConversationCount() async {
+    final result = await _channel.invokeMethod<int>('unreadConversationCount');
+    return result ?? 0;
   }
 
-  static Future<dynamic> setInAppMessagesVisibility(
-      IntercomVisibility visibility) {
+  static Future<void> setInAppMessagesVisibility(
+      IntercomVisibility visibility) async {
     String visibilityString =
         visibility == IntercomVisibility.visible ? 'VISIBLE' : 'GONE';
-    return _channel.invokeMethod('setInAppMessagesVisibility', {
+    await _channel.invokeMethod('setInAppMessagesVisibility', {
       'visibility': visibilityString,
     });
   }
 
-  static Future<dynamic> displayMessenger() {
-    return _channel.invokeMethod('displayMessenger');
+  static Future<void> displayMessenger() async {
+    await _channel.invokeMethod('displayMessenger');
   }
 
-  static Future<dynamic> hideMessenger() {
-    return _channel.invokeMethod('hideMessenger');
+  static Future<void> hideMessenger() async {
+    await _channel.invokeMethod('hideMessenger');
   }
 
-  static Future<dynamic> displayHelpCenter() {
-    return _channel.invokeMethod('displayHelpCenter');
+  static Future<void> displayHelpCenter() async {
+    await _channel.invokeMethod('displayHelpCenter');
   }
 
-  static Future<dynamic> logEvent(String name,
-      [Map<String, dynamic> metaData]) {
-    return _channel
+  static Future<void> logEvent(String name,
+      [Map<String, dynamic>? metaData]) async {
+    await _channel
         .invokeMethod('logEvent', {'name': name, 'metaData': metaData});
   }
 
-  static Future<dynamic> sendTokenToIntercom(String token) {
+  static Future<void> sendTokenToIntercom(String token) async {
+    assert(token.isNotEmpty);
     print("Start sending token to Intercom");
-    return _channel.invokeMethod('sendTokenToIntercom', {'token': token});
+    await _channel.invokeMethod('sendTokenToIntercom', {'token': token});
   }
 
-  static Future<dynamic> handlePushMessage() {
-    return _channel.invokeMethod('handlePushMessage');
+  static Future<void> handlePushMessage() async {
+    await _channel.invokeMethod('handlePushMessage');
   }
 
-  static Future<dynamic> displayMessageComposer(String message) {
-    return _channel
-        .invokeMethod('displayMessageComposer', {'message': message});
+  static Future<void> displayMessageComposer(String message) async {
+    await _channel.invokeMethod('displayMessageComposer', {'message': message});
   }
 
   static Future<bool> isIntercomPush(Map<String, dynamic> message) async {
     if (!message.values.every((item) => item is String)) {
       return false;
     }
-
-    return await _channel
+    final result = await _channel
         .invokeMethod<bool>('isIntercomPush', {'message': message});
+    return result ?? false;
   }
 
   static Future<void> handlePush(Map<String, dynamic> message) async {
